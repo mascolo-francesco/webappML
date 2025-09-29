@@ -1,0 +1,38 @@
+# Ambienti virtuali Python
+.venv/
+venv/
+env/
+.env
+
+# File Python compilati
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE e editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# File temporanei di sviluppo
+temp/
+tmp/
+*.tmp
+
+# Log
+*.log
+
+# File di configurazione locali
+config.local.py
+settings.local.py
