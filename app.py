@@ -124,3 +124,10 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 5001))
     app.run(debug=False, host='0.0.0.0', port=port)
+
+# Per gunicorn
+if __name__ != '__main__':
+    import logging
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
