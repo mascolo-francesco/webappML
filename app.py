@@ -8,12 +8,21 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Carica i modelli salvati
+# Carica i modelli salvati - USANDO MODELLI MIGLIORATI
 try:
-    rf_model = joblib.load("random_forest_model.pkl")
-    scaler = joblib.load("scaler.pkl")
-    label_encoders = joblib.load("label_encoders.pkl")
-    print("Modelli caricati con successo!")
+    # Prova prima i modelli migliorati, poi quelli originali come fallback
+    try:
+        rf_model = joblib.load("random_forest_model_improved.pkl")
+        scaler = joblib.load("scaler_improved.pkl")
+        label_encoders = joblib.load("label_encoders_improved.pkl")
+        print("✅ Modelli MIGLIORATI caricati con successo!")
+        print("   - Confidenze più realistiche (no più 100%)")
+    except FileNotFoundError:
+        rf_model = joblib.load("random_forest_model.pkl")
+        scaler = joblib.load("scaler.pkl")
+        label_encoders = joblib.load("label_encoders.pkl")
+        print("⚠️  Modelli ORIGINALI caricati (potrebbero dare confidenza 100%)")
+        print("   - Esegui fix_confidence_problem.py per modelli migliorati")
 except FileNotFoundError as e:
     print(f"Errore nel caricamento dei modelli: {e}")
     print("Assicurati che i file .pkl siano nella stessa directory del server")
