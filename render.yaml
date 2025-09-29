@@ -2,7 +2,9 @@ services:
   - type: web
     name: webappML
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
     plan: free
     region: oregon
@@ -10,4 +12,6 @@ services:
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.9
+        value: 3.12.6
+      - key: PIP_NO_CACHE_DIR
+        value: "1"
