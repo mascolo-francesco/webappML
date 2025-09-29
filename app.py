@@ -36,6 +36,7 @@ def index():
 def predict_performance():
     try:
         data = request.json
+        print(f"[DEBUG] Ricevuta richiesta con dati: {data}")
         
         # Validazione input
         if not data:
@@ -71,8 +72,12 @@ def predict_performance():
         prediction = rf_model.predict(student_scaled)
         prediction_proba = rf_model.predict_proba(student_scaled)
         
+        print(f"[DEBUG] Predizione raw: {prediction}")
+        print(f"[DEBUG] Probabilità: {prediction_proba}")
+        
         # Decodifica il risultato
         performance_label = label_encoders["Performance"].inverse_transform(prediction)[0]
+        print(f"[DEBUG] Label decodificata: {performance_label}")
         
         # Prepara le probabilità per ogni classe
         classes = label_encoders["Performance"].classes_
@@ -93,6 +98,8 @@ def predict_performance():
             'probabilities': probabilities,
             'confidence': float(max(prediction_proba[0]))
         }
+        
+        print(f"[DEBUG] Risultato finale inviato: {result}")
         
         return jsonify(result)
         

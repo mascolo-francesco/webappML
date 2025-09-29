@@ -25,6 +25,8 @@ class PEPerformancePredictor {
         inputs.forEach(input => {
             input.addEventListener('blur', this.validateField.bind(this, input));
             input.addEventListener('input', this.clearFieldError.bind(this, input));
+            // Hide results when user changes input
+            input.addEventListener('change', this.hideResultsOnChange.bind(this));
         });
     }
 
@@ -142,8 +144,43 @@ class PEPerformancePredictor {
         await this.submitPrediction();
     }
 
+    hideResultsOnChange() {
+        // Hide results when user changes any input
+        if (this.resultSection && this.resultSection.style.display !== 'none') {
+            this.resultSection.style.display = 'none';
+            console.log('Risultati nascosti per modifica input');
+        }
+    }
+
+    clearResultSection() {
+        // Reset result elements to initial state
+        const performanceValue = document.getElementById('performanceValue');
+        const resultDescription = document.getElementById('resultDescription');
+        const confidenceValue = document.getElementById('confidenceValue');
+        const confidenceFill = document.getElementById('confidenceFill');
+        
+        if (performanceValue) {
+            performanceValue.textContent = '-';
+            performanceValue.className = 'performance-value';
+        }
+        if (resultDescription) {
+            resultDescription.textContent = '';
+        }
+        if (confidenceValue) {
+            confidenceValue.textContent = '';
+        }
+        if (confidenceFill) {
+            confidenceFill.style.width = '0%';
+        }
+        
+        console.log('Sezione risultato resettata');
+    }
+
     async submitPrediction() {
         this.setLoadingState(true);
+        
+        // Clear previous results first
+        this.clearResultSection();
         
         try {
             const formData = new FormData(this.form);
@@ -204,12 +241,27 @@ class PEPerformancePredictor {
     showResult(result) {
         const { prediction_italian, confidence } = result;
         
+        console.log('showResult chiamata con:', result);
+        
+        // Hide result section first to force re-render
+        this.resultSection.style.display = 'none';
+        
+        // Force a repaint
+        this.resultSection.offsetHeight;
+        
         // Update result card
         this.updateResultCard(prediction_italian, confidence);
         
-        // Show result section
-        this.resultSection.style.display = 'block';
-        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        // Show result section with a small delay to ensure DOM update
+        setTimeout(() => {
+            this.resultSection.style.display = 'block';
+            this.resultSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Initialize Lucide icons for the legend section
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }, 10);
         
         this.showNotification('Previsione completata con successo!', 'success');
     }
@@ -219,6 +271,8 @@ class PEPerformancePredictor {
         const resultDescription = document.getElementById('resultDescription');
         const confidenceValue = document.getElementById('confidenceValue');
         const confidenceFill = document.getElementById('confidenceFill');
+        
+        console.log('updateResultCard chiamata con:', { prediction, confidence });
         
         // Determine performance level and description
         let performanceClass = 'medium';
@@ -239,15 +293,34 @@ class PEPerformancePredictor {
             description = 'Basato sui dati forniti, il modello prevede una prestazione media in educazione fisica.';
         }
         
-        // Update content
-        performanceValue.textContent = displayValue;
-        performanceValue.className = `performance-value ${performanceClass}`;
-        resultDescription.textContent = description;
+        console.log('Valori calcolati:', { displayValue, performanceClass, description });
+        
+        // Force DOM update with explicit clearing and setting
+        if (performanceValue) {
+            performanceValue.textContent = '';
+            performanceValue.className = 'performance-value';
+            // Force re-render
+            performanceValue.offsetHeight;
+            performanceValue.textContent = displayValue;
+            performanceValue.className = `performance-value ${performanceClass}`;
+        }
+        
+        if (resultDescription) {
+            resultDescription.textContent = '';
+            resultDescription.offsetHeight;
+            resultDescription.textContent = description;
+        }
         
         // Update confidence
         const confidencePercent = Math.round(confidence * 100);
-        confidenceValue.textContent = `${confidencePercent}%`;
-        confidenceFill.style.width = `${confidencePercent}%`;
+        if (confidenceValue) {
+            confidenceValue.textContent = `${confidencePercent}%`;
+        }
+        if (confidenceFill) {
+            confidenceFill.style.width = `${confidencePercent}%`;
+        }
+        
+        console.log('DOM aggiornato. Valore finale:', performanceValue?.textContent);
     }
 
     handleReset() {

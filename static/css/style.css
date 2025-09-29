@@ -489,3 +489,131 @@ body {
     margin-top: var(--space-xs);
     font-weight: 500;
 }
+
+/* ===== LEGEND STYLES ===== */
+.legend-section {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.legend-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+}
+
+.legend-title i {
+    width: 18px;
+    height: 18px;
+    color: var(--color-primary);
+}
+
+.legend-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+
+.legend-item {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+}
+
+.legend-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+}
+
+.performance-icon {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border);
+}
+
+.performance-icon i {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text);
+}
+
+.confidence-icon {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border);
+}
+
+.confidence-icon i {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text);
+}
+
+.legend-text {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    text-align: left;
+    word-spacing: normal;
+}
+
+.legend-text strong {
+    color: var(--color-text);
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--space-sm);
+}
+
+
+
+.legend-note {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border-light);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+.legend-note i {
+    width: 14px;
+    height: 14px;
+    color: var(--color-warning);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ===== RESPONSIVE LEGEND ===== */
+@media (max-width: 768px) {
+    .legend-content {
+        gap: var(--space-lg);
+    }
+    
+    .legend-item {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .legend-icon {
+        align-self: flex-start;
+    }
+    
+    .legend-note {
+        flex-direction: column;
+        text-align: left;
+    }
+}

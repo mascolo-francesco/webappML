@@ -215,7 +215,7 @@
                 <div class="result-card" id="resultCard">
                     <div class="performance-display">
                         <div class="performance-label">Performance</div>
-                        <div class="performance-value" id="performanceValue">Alta</div>
+                        <div class="performance-value" id="performanceValue">-</div>
                     </div>
                     
                     <div class="result-description" id="resultDescription">
@@ -229,6 +229,38 @@
                         </div>
                         <div class="confidence-bar">
                             <div class="confidence-fill" id="confidenceFill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-section">
+                        <div class="legend-title">
+                            <i data-lucide="info"></i>
+                            <span>Interpretazione tecnica dei risultati</span>
+                        </div>
+                        
+                        <div class="legend-content">
+                            <div class="legend-item">
+                                <div class="legend-icon performance-icon">
+                                    <i data-lucide="target"></i>
+                                </div>
+                                <div class="legend-text">
+                                    <strong>Performance:</strong> Il sistema usa un algoritmo Random Forest che divide gli studenti in tre categorie basandosi sui loro dati fisici e di partecipazione. "Alta" significa che lo studente ha ottime capacità fisiche e partecipa attivamente alle lezioni. "Media" indica prestazioni nella norma con spazio per migliorare. "Bassa" segnala che lo studente ha bisogno di aiuto extra per raggiungere gli obiettivi minimi del corso di educazione fisica.
+                                </div>
+                            </div>
+                            
+                            <div class="legend-item">
+                                <div class="legend-icon confidence-icon">
+                                    <i data-lucide="activity"></i>
+                                </div>
+                                <div class="legend-text">
+                                    <strong>Confidenza:</strong> Indica quanto è sicuro il modello della sua previsione, espressa in percentuale. Il valore viene calcolato da tutti gli alberi decisionali che compongono il Random Forest. Se la confidenza è sopra il 90% significa che quasi tutti gli alberi sono d'accordo sulla previsione, quindi è molto affidabile. Tra 70-89% la previsione è ancora buona ma con più incertezza. Sotto il 70% vuol dire che i dati dello studente sono al confine tra due categorie, quindi la previsione è meno sicura.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="legend-note">
+                            <i data-lucide="lightbulb"></i>
+                            <span>Il sistema analizza 18 parametri diversi dello studente come età, punteggi fisici, partecipazione e voti precedenti per fare la previsione più accurata possibile.</span>
                         </div>
                     </div>
                 </div>
