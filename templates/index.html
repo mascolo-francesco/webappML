@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsione Performance Studenti - PE Classifier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-icon">
+                    <i data-lucide="brain-circuit"></i>
+                </div>
+                <div class="header-text">
+                    <h1 class="header-title">Classificatore Performance Studenti</h1>
+                    <p class="header-subtitle">Inserisci le informazioni dello studente per prevedere le sue performance in educazione fisica.</p>
+                </div>
+                <button type="button" id="autoFillBtn" class="auto-fill-btn">
+                    <i data-lucide="shuffle"></i>
+                    Compila Automaticamente
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="form-section">
+                <form id="studentForm" class="student-form">
+                    <!-- Dati Anagrafici -->
+                    <div class="form-section-group">
+                        <h3 class="section-group-title">Dati Anagrafici</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="age" class="input-label">Età</label>
+                                <select id="age" name="Age" required class="input-field">
+                                    <option value="">Seleziona età</option>
+                                    <option value="14">14 anni</option>
+                                    <option value="15">15 anni</option>
+                                    <option value="16">16 anni</option>
+                                    <option value="17">17 anni</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="gender" class="input-label">Genere</label>
+                                <select id="gender" name="Gender" required class="input-field">
+                                    <option value="">Seleziona genere</option>
+                                    <option value="Male">Maschio</option>
+                                    <option value="Female">Femmina</option>
+                                    <option value="Other">Altro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="grade_level" class="input-label">Anno Scolastico</label>
+                                <select id="grade_level" name="Grade_Level" required class="input-field">
+                                    <option value="">Seleziona anno</option>
+                                    <option value="9th">Prima superiore (9th)</option>
+                                    <option value="10th">Seconda superiore (10th)</option>
+                                    <option value="11th">Terza superiore (11th)</option>
+                                    <option value="12th">Quarta superiore (12th)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Punteggi Fisici -->
+                    <div class="form-section-group">
+                        <h3 class="section-group-title">Valutazioni Fisiche</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="strength_score" class="input-label">Punteggio Forza (0-100)</label>
+                                <input type="number" id="strength_score" name="Strength_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 65.5">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="endurance_score" class="input-label">Punteggio Resistenza (0-100)</label>
+                                <input type="number" id="endurance_score" name="Endurance_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 70.2">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="flexibility_score" class="input-label">Punteggio Flessibilità (0-100)</label>
+                                <input type="number" id="flexibility_score" name="Flexibility_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 68.3">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="speed_agility_score" class="input-label">Punteggio Velocità/Agilità (0-100)</label>
+                                <input type="number" id="speed_agility_score" name="Speed_Agility_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 72.1">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="bmi" class="input-label">BMI (Indice Massa Corporea)</label>
+                                <input type="number" id="bmi" name="BMI" 
+                                       min="10" max="50" step="0.01" required class="input-field" placeholder="es. 22.5">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="health_fitness_knowledge_score" class="input-label">Conoscenze Salute e Fitness (0-100)</label>
+                                <input type="number" id="health_fitness_knowledge_score" name="Health_Fitness_Knowledge_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 75.0">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="skills_score" class="input-label">Punteggio Abilità (0-100)</label>
+                                <input type="number" id="skills_score" name="Skills_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 68.8">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comportamento e Partecipazione -->
+                    <div class="form-section-group">
+                        <h3 class="section-group-title">Comportamento e Partecipazione</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="class_participation_level" class="input-label">Livello Partecipazione</label>
+                                <select id="class_participation_level" name="Class_Participation_Level" required class="input-field">
+                                    <option value="">Seleziona livello</option>
+                                    <option value="Low">Basso</option>
+                                    <option value="Medium">Medio</option>
+                                    <option value="High">Alto</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="motivation_level" class="input-label">Livello Motivazione</label>
+                                <select id="motivation_level" name="Motivation_Level" required class="input-field">
+                                    <option value="">Seleziona livello</option>
+                                    <option value="Low">Basso</option>
+                                    <option value="Medium">Medio</option>
+                                    <option value="High">Alto</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="attendance_rate" class="input-label">Tasso Presenza (%)</label>
+                                <input type="number" id="attendance_rate" name="Attendance_Rate" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 85.5">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="hours_physical_activity_per_week" class="input-label">Ore Attività Fisica/Settimana</label>
+                                <input type="number" id="hours_physical_activity_per_week" name="Hours_Physical_Activity_Per_Week" 
+                                       min="0" max="50" step="0.01" required class="input-field" placeholder="es. 7.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Valutazioni Accademiche -->
+                    <div class="form-section-group">
+                        <h3 class="section-group-title">Valutazioni Accademiche</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="overall_pe_performance_score" class="input-label">Punteggio Performance Generale (0-100)</label>
+                                <input type="number" id="overall_pe_performance_score" name="Overall_PE_Performance_Score" 
+                                       min="0" max="100" step="0.01" required class="input-field" placeholder="es. 72.3">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="improvement_rate" class="input-label">Tasso Miglioramento</label>
+                                <input type="number" id="improvement_rate" name="Improvement_Rate" 
+                                       min="0" max="20" step="0.01" required class="input-field" placeholder="es. 5.2">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="final_grade" class="input-label">Voto Finale</label>
+                                <select id="final_grade" name="Final_Grade" required class="input-field">
+                                    <option value="">Seleziona voto</option>
+                                    <option value="A">A (Eccellente)</option>
+                                    <option value="B">B (Buono)</option>
+                                    <option value="C">C (Sufficiente)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="previous_semester_pe_grade" class="input-label">Voto Semestre Precedente</label>
+                                <select id="previous_semester_pe_grade" name="Previous_Semester_PE_Grade" required class="input-field">
+                                    <option value="">Seleziona voto</option>
+                                    <option value="A">A (Eccellente)</option>
+                                    <option value="B">B (Buono)</option>
+                                    <option value="C">C (Sufficiente)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="resetBtn" class="btn btn-secondary">
+                            <i data-lucide="refresh-cw"></i>
+                            Cancella Campi
+                        </button>
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <i data-lucide="brain"></i>
+                            <span class="btn-text">Calcola Previsione</span>
+                            <div class="btn-loader" style="display: none;">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2 class="section-title">Risultato Classificazione</h2>
+                
+                <div class="result-card" id="resultCard">
+                    <div class="performance-display">
+                        <div class="performance-label">Performance</div>
+                        <div class="performance-value" id="performanceValue">Alta</div>
+                    </div>
+                    
+                    <div class="result-description" id="resultDescription">
+                        Basato sui dati forniti, il modello prevede una prestazione alta in educazione fisica.
+                    </div>
+                    
+                    <div class="confidence-section">
+                        <div class="confidence-label">
+                            <span>Confidenza</span>
+                            <span id="confidenceValue"></span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
